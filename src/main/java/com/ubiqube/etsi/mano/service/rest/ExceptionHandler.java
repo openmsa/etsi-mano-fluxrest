@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.service.rest;
 
+import jakarta.annotation.Nullable;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,7 +28,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ExceptionHandler {
+	@Nullable
 	private String message;
+	@Nullable
 	private Throwable e;
 
 }

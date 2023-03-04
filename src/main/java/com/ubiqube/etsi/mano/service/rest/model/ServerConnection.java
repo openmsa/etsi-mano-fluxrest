@@ -19,6 +19,8 @@ package com.ubiqube.etsi.mano.service.rest.model;
 import java.io.Serializable;
 import java.util.UUID;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -56,10 +58,12 @@ public class ServerConnection implements Serializable {
 
 	private AuthentificationInformations authentification;
 
+	@Nonnull
 	private String url;
 
 	private boolean ignoreSsl;
 
+	@Nullable
 	@Column(length = 5000)
 	private String tlsCert;
 

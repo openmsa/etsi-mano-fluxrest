@@ -198,10 +198,11 @@ public class FluxRest {
 
 	private static HttpClient getHttpClient(final String url, @Nullable final Boolean ignoreSsl, @Nullable final String tlsCert) {
 		final SslContext sslContext = buildSslContext(url, ignoreSsl, tlsCert);
-		final HttpClient client = HttpClient.create()
+		HttpClient client = HttpClient.create()
 				.doOnRequest((h, c) -> c.addHandlerFirst(new ManoLoggingHandler()));
 		if (null != sslContext) {
-			client.secure(t -> t.sslContext(sslContext));
+			// The copy is needed, because secure return another instance of client.
+			client = client.secure(t -> t.sslContext(sslContext));
 		}
 		return client;
 	}
@@ -227,7 +228,7 @@ public class FluxRest {
 		return resp.block();
 	}
 
-	public final @Nullable <T> T get(final URI uri, final Class<T> clazz, final String version) {
+	public final @Nullable <T> T get(final URI uri, final Class<T> clazz, @Nullable final String version) {
 		return call(uri, HttpMethod.GET, clazz, version);
 	}
 

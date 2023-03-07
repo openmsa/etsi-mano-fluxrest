@@ -346,7 +346,7 @@ public class FluxRest {
 		});
 	}
 
-	private final @Nullable <T> T innerCall(final URI uri, final HttpMethod method, final @Nullable Object requestObject, final Class<T> clazz, final Map<String, String> headers) {
+	private final @Nullable <T> T innerCall(final URI uri, final HttpMethod method, final @Nullable Object requestObject, final @Nullable Class<T> clazz, final Map<String, String> headers) {
 		final Mono<ResponseEntity<T>> resp = makeBaseQuery(uri, method, requestObject, headers)
 				.accept(MediaType.APPLICATION_JSON)
 				.retrieve()
@@ -354,7 +354,7 @@ public class FluxRest {
 		return getBlockingResult(resp, clazz, headers);
 	}
 
-	private @Nullable <T> T getBlockingResult(final Mono<ResponseEntity<T>> resp, final Class<T> clazz, final Map<String, String> headers) {
+	private @Nullable <T> T getBlockingResult(final Mono<ResponseEntity<T>> resp, final @Nullable Class<T> clazz, final Map<String, String> headers) {
 		final ResponseEntity<T> resp2 = resp.block();
 		if (null == resp2) {
 			return null;

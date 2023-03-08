@@ -241,7 +241,7 @@ public class FluxRest {
 		return resp.block();
 	}
 
-	public final @Nullable <T> ResponseEntity<T> deleteWithReturn(final URI uri, final Object body, @Nullable final String version) {
+	public final @Nullable <T> ResponseEntity<T> deleteWithReturn(final URI uri, @Nullable final Object body, @Nullable final String version) {
 		final Map<String, String> map = Optional.ofNullable(version).map(x -> Map.of(VERSION, x)).orElseGet(Map::of);
 		final ResponseSpec resp = makeBaseQuery(uri, HttpMethod.DELETE, body, map)
 				.accept(MediaType.APPLICATION_JSON)

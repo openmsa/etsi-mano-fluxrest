@@ -55,7 +55,7 @@ class FluxRestTest {
 		final String uri = wmRuntimeInfo.getHttpBaseUrl() + "/test001";
 		System.out.println("" + uri);
 		final String res = fr.get(URI.create(uri), String.class, null);
-		System.out.println(res);
+		assertNotNull(res);
 	}
 
 	@Test

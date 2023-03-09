@@ -49,11 +49,12 @@ class FluxRestTest {
 
 	@Test
 	void testName(final WireMockRuntimeInfo wmRuntimeInfo) throws Exception {
-		stubFor(get(urlPathMatching("/test001")).willReturn(aResponse().withStatus(200)));
+		stubFor(get(urlPathMatching("/test001")).willReturn(aResponse()
+				.withBody("{}")
+				.withStatus(200)));
 		final ServerConnection srv = createServer(wmRuntimeInfo);
 		final FluxRest fr = new FluxRest(srv);
 		final String uri = wmRuntimeInfo.getHttpBaseUrl() + "/test001";
-		System.out.println("" + uri);
 		final String res = fr.get(URI.create(uri), String.class, null);
 		assertNotNull(res);
 	}

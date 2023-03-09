@@ -14,36 +14,36 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.rest.model;
+package com.ubiqube.etsi.mano.rest;
 
-import jakarta.annotation.Nullable;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-public enum ApiTypesEnum {
-	SOL003("SOL003"),
-	SOL005("SOL005");
+import org.junit.jupiter.api.Test;
 
-	private final String value;
+import com.ubiqube.etsi.mano.service.rest.model.ApiTypesEnum;
 
-	ApiTypesEnum(final String v) {
-		value = v;
+@SuppressWarnings("static-method")
+class ApiTypesEnumTest {
+
+	@Test
+	void testName() throws Exception {
+		final ApiTypesEnum obj = ApiTypesEnum.fromValue("SOL003");
+		assertNotNull(obj);
+		assertNotNull(obj.toString());
+		assertNotNull(obj.value());
 	}
 
-	public String value() {
-		return value;
+	@Test
+	void testNull() throws Exception {
+		final ApiTypesEnum obj = ApiTypesEnum.fromValue("SOL");
+		assertNull(obj);
 	}
 
-	@Override
-	public String toString() {
-		return String.valueOf(value);
+	@Test
+	void testNullInput() throws Exception {
+		final ApiTypesEnum obj = ApiTypesEnum.fromValue(null);
+		assertNull(obj);
 	}
 
-	@Nullable
-	public static ApiTypesEnum fromValue(final String v) {
-		for (final ApiTypesEnum b : ApiTypesEnum.values()) {
-			if (String.valueOf(b.value).equals(v)) {
-				return b;
-			}
-		}
-		return null;
-	}
 }

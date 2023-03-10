@@ -31,6 +31,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -106,7 +107,8 @@ public class FluxRest {
 
 	public FluxRest(final ServerConnection server) {
 		this.rootUrl = server.getUrl();
-		this.httpClient = getHttpClient(server.getUrl(), server.isIgnoreSsl(), server.getTlsCert());
+		final String url = Objects.requireNonNull(server.getUrl(), "Server URL could not be null.");
+		this.httpClient = getHttpClient(url, server.isIgnoreSsl(), server.getTlsCert());
 		this.webBuilder = applyBasicWebClientBuilder(WebClient.builder(), server);
 	}
 

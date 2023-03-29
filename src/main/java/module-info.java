@@ -34,6 +34,7 @@ module com.ubiqube.etsi.mano.service.rest {
 	requires reactor.netty.core;
 	requires reactor.netty.http;
 	requires io.netty.buffer;
+	requires io.netty.codec;
 	requires io.netty.codec.http;
 	requires io.netty.common;
 	requires io.netty.handler;

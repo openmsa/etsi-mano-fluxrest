@@ -29,6 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -47,6 +48,7 @@ import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import com.ubiqube.etsi.mano.repository.ByteArrayResource;
 import com.ubiqube.etsi.mano.repository.ManoResource;
 import com.ubiqube.etsi.mano.service.rest.FluxRest;
+import com.ubiqube.etsi.mano.service.rest.RestException;
 import com.ubiqube.etsi.mano.service.rest.model.AuthentificationInformations;
 import com.ubiqube.etsi.mano.service.rest.model.ServerConnection;
 
@@ -118,7 +120,6 @@ class FluxRestTest {
 		final ServerConnection srv = createServer(wmRuntimeInfo);
 		final FluxRest fr = new FluxRest(srv);
 		final String uri = wmRuntimeInfo.getHttpBaseUrl() + "/test001";
-		System.out.println("" + uri);
 		final Path path = Paths.get("/tmp/test");
 		fr.download(URI.create(uri), path, "2.3.4");
 		assertNotNull("");
@@ -165,7 +166,6 @@ class FluxRestTest {
 		final ServerConnection srv = createServer(wmRuntimeInfo);
 		final FluxRest fr = new FluxRest(srv);
 		final String uri = wmRuntimeInfo.getHttpBaseUrl() + "/test001";
-		final InputStream is = new ByteArrayInputStream("{}".getBytes());
 		final ManoResource mr = new ByteArrayResource("{}".getBytes(), "name.json");
 		fr.upload(URI.create(uri), mr, "application/json", "0.0.1");
 		assertTrue(true);
@@ -177,8 +177,8 @@ class FluxRestTest {
 		final ServerConnection srv = createServer(wmRuntimeInfo);
 		final FluxRest fr = new FluxRest(srv);
 		final String uri = wmRuntimeInfo.getHttpBaseUrl() + "/test001";
-		final InputStream is = new ByteArrayInputStream("{}".getBytes());
 		final Path path = Paths.get("/tmp/test");
+		createFile(path);
 		fr.upload(URI.create(uri), path, "application/json", "0.0.1");
 		assertTrue(true);
 	}
@@ -278,4 +278,13 @@ class FluxRestTest {
 				.build();
 
 	}
+
+	private void createFile(final Path path) {
+		try (FileOutputStream fos = new FileOutputStream(path.toFile())) {
+			fos.write("test".getBytes());
+		} catch (final IOException e) {
+			throw new RestException(e);
+		}
+	}
+
 }

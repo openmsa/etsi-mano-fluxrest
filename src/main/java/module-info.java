@@ -27,7 +27,7 @@ module com.ubiqube.etsi.mano.service.rest {
 	requires spring.security.oauth2.client;
 	requires spring.security.oauth2.core;
 	requires spring.web;
-	requires spring.webflux;
+	requires transitive spring.webflux;
 	requires org.reactivestreams;
 	requires reactor.core;
 	requires reactor.netty;

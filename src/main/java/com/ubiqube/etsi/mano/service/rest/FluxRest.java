@@ -474,4 +474,8 @@ public class FluxRest {
 		}
 	}
 
+	public WebClient getWebClient() {
+		return webBuilder.build();
+	}
+
 }

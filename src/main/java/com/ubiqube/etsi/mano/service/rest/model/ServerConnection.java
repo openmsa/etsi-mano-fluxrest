@@ -29,6 +29,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Version;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -47,6 +48,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ServerConnection implements Serializable {
+
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
 
@@ -59,6 +61,7 @@ public class ServerConnection implements Serializable {
 	private AuthentificationInformations authentification;
 
 	@Nonnull
+	@NotNull
 	private String url;
 
 	private boolean ignoreSsl;
@@ -75,4 +78,8 @@ public class ServerConnection implements Serializable {
 	@Version
 	private long tupleVersion;
 
+	public ServerConnection(final AuthentificationInformations authentication, @Nonnull final String callbackUri) {
+		this.authentification = authentication;
+		this.url = callbackUri;
+	}
 }

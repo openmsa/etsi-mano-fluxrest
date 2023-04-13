@@ -20,6 +20,7 @@ module com.ubiqube.etsi.mano.service.rest {
 
 	requires jakarta.annotation;
 	requires jakarta.persistence;
+	requires jakarta.validation;
 	requires com.fasterxml.jackson.annotation;
 	requires lombok;
 	requires org.slf4j;

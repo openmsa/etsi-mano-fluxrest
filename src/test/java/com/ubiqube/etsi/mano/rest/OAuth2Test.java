@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.rest;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -47,6 +48,19 @@ class OAuth2Test {
 		stubFor(get(urlPathMatching("/test001")).willReturn(aResponse()
 				.withStatus(200)
 				.withBody("{}")));
+		stubFor(post(urlPathMatching("/auth/realms/mano-realm/protocol/openid-connect/token")).willReturn(aResponse()
+				.withStatus(200)
+				.withHeader("Content-Type", "application/json")
+				.withBody("""
+						{
+							"access_token":"eyJhbGciOiJSUzI1",
+							"expires_in":3000,
+							"refresh_expires_in":0,
+							"token_type":"Bearer",
+							"not-before-policy":0,
+							"scope":"profile mano:ovi email"
+						}
+						""")));
 		final ServerConnection srv = createServer(wmRuntimeInfo);
 		final FluxRest fr = new FluxRest(srv);
 		final String uri = wmRuntimeInfo.getHttpBaseUrl() + "/test001";
@@ -65,7 +79,7 @@ class OAuth2Test {
 						.o2IgnoreSsl(true)
 						.o2Username("user")
 						.o2Password("pass")
-						.tokenEndpoint("http://mano-auth/auth/realms/mano-realm/protocol/openid-connect/token")
+						.tokenEndpoint(wmRuntimeInfo.getHttpBaseUrl() + "/auth/realms/mano-realm/protocol/openid-connect/token")
 						.build())
 				.authType(List.of(AuthType.BASIC))
 				.build();

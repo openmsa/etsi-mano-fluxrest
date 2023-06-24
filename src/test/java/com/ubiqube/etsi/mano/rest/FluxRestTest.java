@@ -132,7 +132,6 @@ class FluxRestTest {
 		final FluxRest fr = new FluxRest(srv);
 		final String uri = wmRuntimeInfo.getHttpBaseUrl() + "/test001";
 		System.out.println("" + uri);
-		final Path path = Paths.get("/tmp/test");
 		fr.patch(URI.create(uri), String.class, null, Map.of(), "2.3.4");
 		assertNotNull("");
 	}
@@ -144,7 +143,6 @@ class FluxRestTest {
 		final FluxRest fr = new FluxRest(srv);
 		final String uri = wmRuntimeInfo.getHttpBaseUrl() + "/test001";
 		System.out.println("" + uri);
-		final Path path = Paths.get("/tmp/test");
 		fr.patch(URI.create(uri), String.class, "1", Map.of(), "2.3.4");
 		assertNotNull("");
 	}

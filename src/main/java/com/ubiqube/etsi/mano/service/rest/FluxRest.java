@@ -369,14 +369,18 @@ public class FluxRest {
 		return resp2.getBody();
 	}
 
-	public void upload(final URI uri, final Path path, final String accept, @Nullable final String version) {
+	public void upload(final URI uri, final Path path, final String accept, final MultiValueMap<String, String> headers) {
 		final MultiValueMap<String, ?> multipart = fromPath(path, accept);
-		upload(uri, multipart, version);
+		upload(uri, multipart, headers);
 	}
 
 	public void upload(final URI uri, final InputStream is, final String accept, final @Nullable String version) {
 		final MultiValueMap<String, ?> multipart = fromInputStream(is, accept);
-		upload(uri, multipart, version);
+		final MultiValueMap<String, String> headers = new HttpHeaders();
+		if (null != version) {
+			headers.add(VERSION, version);
+		}
+		upload(uri, multipart, headers);
 	}
 
 	public void upload(final URI uri, final ManoResource mr, final String accept, final @Nullable String version) {
@@ -387,16 +391,18 @@ public class FluxRest {
 		}
 	}
 
-	public void upload(final URI uri, final MultiValueMap<String, ?> multipartData, final @Nullable String version) {
+	public void upload(final URI uri, final MultiValueMap<String, ?> multipartData, final MultiValueMap<String, String> headers) {
 		final RequestHeadersSpec<?> wc = webBuilder
 				.build()
 				.put()
 				.uri(uri)
 				.contentType(MediaType.MULTIPART_FORM_DATA)
 				.body(BodyInserters.fromMultipartData(multipartData));
-		if (null != version) {
-			wc.header(VERSION, version);
-		}
+		headers.entrySet().stream().forEach(x -> {
+			x.getValue().stream().forEach(y -> {
+				wc.header(x.getKey(), y);
+			});
+		});
 		wc.retrieve()
 				.bodyToMono(String.class)
 				.block();

@@ -40,8 +40,10 @@ import java.util.function.Consumer;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
@@ -177,7 +179,9 @@ class FluxRestTest {
 		final String uri = wmRuntimeInfo.getHttpBaseUrl() + "/test001";
 		final Path path = Paths.get("/tmp/test");
 		createFile(path);
-		fr.upload(URI.create(uri), path, "application/json", "0.0.1");
+		final MultiValueMap<String, String> headers = new HttpHeaders();
+		headers.add("Version", "0.0.1");
+		fr.upload(URI.create(uri), path, "application/json", headers);
 		assertTrue(true);
 	}
 

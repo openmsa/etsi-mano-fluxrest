@@ -7,6 +7,14 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<artifactId>mano-fluxrest</artifactId>
+	<properties>
+		<version.javax.servlet-api>4.0.1</version.javax.servlet-api>
+		<version.mano-repo-api>3.0.0</version.mano-repo-api>
+	</properties>
+	<scm>
+		<developerConnection>scm:git:https://github.com/openmsa/etsi-mano-fluxrest.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -54,7 +62,7 @@
 		<dependency>
 			<groupId>com.ubiqube.mano.repository</groupId>
 			<artifactId>mano-repo-api</artifactId>
-			<version>${project.version}</version>
+			<version>${version.mano-repo-api}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -64,7 +72,7 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>4.0.1</version>
+			<version>${version.javax.servlet-api}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

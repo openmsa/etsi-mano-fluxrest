@@ -12,7 +12,7 @@
  *     GNU General Public License for more details.
  *
  *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *     along with this program.  If not, see https://www.gnu.org/licenses/.
  */
 package com.ubiqube.etsi.mano.service.rest;
 
@@ -93,7 +93,7 @@ import reactor.netty.http.client.HttpClient;
 
 /**
  *
- * @author Olivier Vignaud <ovi@ubiqube.com>
+ * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
  *
  */
 public class FluxRest {
@@ -261,12 +261,12 @@ public class FluxRest {
 
 	/**
 	 *
-	 * @param <T>     Return class.
-	 * @param uri     URI to call.
-	 * @param body    The body as an {@link InputStream}.
-	 * @param clazz   Return Class.
-	 * @param version MANO Version null other wise.
-	 * @return
+	 * @param <T>         Return class.
+	 * @param uri         URI to call.
+	 * @param body        The body as an {@link InputStream}.
+	 * @param clazz       Return Class.
+	 * @param contentType content type.
+	 * @return The resulting object.
 	 */
 	public final @Nullable <T> T put(final URI uri, final InputStream body, final Class<T> clazz, final String contentType) {
 		return innerCall(uri, HttpMethod.PUT, body, clazz, Map.of("Content-Type", contentType));

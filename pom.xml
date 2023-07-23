@@ -7,15 +7,14 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<artifactId>mano-fluxrest</artifactId>
-	<version>3.1.0-SNAPSHOT</version>
-	<properties>
-		<version.javax.servlet-api>4.0.1</version.javax.servlet-api>
-		<version.mano-repo-api>3.0.0</version.mano-repo-api>
-	</properties>
 	<scm>
 		<developerConnection>scm:git:https://github.com/openmsa/etsi-mano-fluxrest.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
+	<properties>
+		<version.javax.servlet-api>4.0.1</version.javax.servlet-api>
+		<version.mano-repo-api>3.0.0</version.mano-repo-api>
+	</properties>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

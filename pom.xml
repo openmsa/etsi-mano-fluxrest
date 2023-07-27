@@ -11,10 +11,6 @@
 		<developerConnection>scm:git:https://github.com/openmsa/etsi-mano-fluxrest.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
-	<properties>
-		<version.javax.servlet-api>4.0.1</version.javax.servlet-api>
-		<version.mano-repo-api>3.0.0</version.mano-repo-api>
-	</properties>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -72,7 +68,6 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>${version.javax.servlet-api}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

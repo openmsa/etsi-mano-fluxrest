@@ -49,7 +49,7 @@ class ServerConnectionTest {
 		scObj.setServerType(null);
 		scObj.setTlsCert(null);
 		scObj.setTupleVersion(0);
-		scObj.setUrl(null);
+		scObj.setUrl("http://localhost/");
 		scObj.setVersion(null);
 	}
 }

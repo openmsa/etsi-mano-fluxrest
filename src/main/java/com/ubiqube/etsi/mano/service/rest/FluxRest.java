@@ -404,11 +404,9 @@ public class FluxRest {
 				.uri(uri)
 				.contentType(MediaType.MULTIPART_FORM_DATA)
 				.body(BodyInserters.fromMultipartData(multipartData));
-		headers.entrySet().stream().forEach(x -> {
-			x.getValue().stream().forEach(y -> {
-				wc.header(x.getKey(), y);
-			});
-		});
+		headers.entrySet().stream()
+				.forEach(x -> x.getValue().stream()
+						.forEach(y -> wc.header(x.getKey(), y)));
 		wc.retrieve()
 				.bodyToMono(String.class)
 				.block();

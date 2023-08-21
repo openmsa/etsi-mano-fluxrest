@@ -24,7 +24,9 @@ import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.put;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
@@ -42,6 +44,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 
@@ -50,6 +53,7 @@ import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import com.ubiqube.etsi.mano.repository.ByteArrayResource;
 import com.ubiqube.etsi.mano.repository.ManoResource;
 import com.ubiqube.etsi.mano.service.rest.FluxRest;
+import com.ubiqube.etsi.mano.service.rest.ProblemDetailException;
 import com.ubiqube.etsi.mano.service.rest.RestException;
 import com.ubiqube.etsi.mano.service.rest.model.AuthentificationInformations;
 import com.ubiqube.etsi.mano.service.rest.model.ServerConnection;
@@ -272,13 +276,51 @@ class FluxRestTest {
 		assertTrue(true);
 	}
 
+	@Test
+	void testPostError(final WireMockRuntimeInfo wmRuntimeInfo) {
+		stubFor(post(urlPathMatching("/test001")).willReturn(aResponse()
+				.withStatus(404)
+				.withBody("Not a json body")));
+		final ServerConnection srv = createServer(wmRuntimeInfo);
+		final FluxRest fr = new FluxRest(srv);
+		final String uri = wmRuntimeInfo.getHttpBaseUrl() + "/test001";
+		final URI ur = URI.create(uri);
+		final RestException e = assertThrows(RestException.class, () -> fr.post(ur, "{}", String.class, "1.2.3"));
+		assertNotNull(e);
+		assertEquals("Not a json body", e.getMessage());
+		assertTrue(true);
+	}
+
+	@Test
+	void testPostErrorJson(final WireMockRuntimeInfo wmRuntimeInfo) {
+		stubFor(post(urlPathMatching("/test001")).willReturn(aResponse()
+				.withStatus(404)
+				.withHeader("Content-Type", "application/problem+json;charset=UTF-8")
+				.withBody("""
+						{
+						  "type": "about:blank",
+						  "status": 401,
+						  "detail": "Unauthorized.",
+						  "instance": "http://6be517c93979"
+						}
+						""")));
+		final ServerConnection srv = createServer(wmRuntimeInfo);
+		final FluxRest fr = new FluxRest(srv);
+		final String uri = wmRuntimeInfo.getHttpBaseUrl() + "/test001";
+		final URI ur = URI.create(uri);
+		final ProblemDetailException e = assertThrows(ProblemDetailException.class, () -> fr.post(ur, "{}", String.class, "1.2.3"));
+		assertEquals("Unauthorized.", e.getMessage());
+		final ProblemDetail pd = e.getProblemDetail();
+		assertNotNull(pd);
+		assertEquals(401, pd.getStatus());
+	}
+
 	private static ServerConnection createServer(final WireMockRuntimeInfo wmRuntimeInfo) {
 		final AuthentificationInformations auth = null;
 		return ServerConnection.serverBuilder()
 				.authentification(auth)
 				.url(wmRuntimeInfo.getHttpBaseUrl())
 				.build();
-
 	}
 
 	private void createFile(final Path path) {

@@ -52,6 +52,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.MultipartBodyBuilder;
 import org.springframework.http.client.reactive.ClientHttpConnector;
@@ -66,6 +67,7 @@ import org.springframework.security.oauth2.client.registration.InMemoryReactiveC
 import org.springframework.security.oauth2.client.registration.ReactiveClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServerOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.springframework.util.MimeType;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.ClientResponse;
@@ -342,6 +344,10 @@ public class FluxRest {
 		return ExchangeFilterFunction.ofResponseProcessor(cr -> {
 			final HttpStatusCode status = cr.statusCode();
 			if (status.is5xxServerError() || status.is4xxClientError()) {
+				final boolean isProblemDetail = cr.headers().contentType().map(x -> x.includes(MimeType.valueOf("application/problem+json"))).orElse(false);
+				if (isProblemDetail) {
+					return cr.bodyToMono(ProblemDetail.class).flatMap(x -> Mono.error(() -> new ProblemDetailException(x)));
+				}
 				return cr.bodyToMono(String.class).flatMap(x -> Mono.error(() -> new RestException(x)));
 			}
 			return Mono.just(cr);
@@ -443,7 +449,7 @@ public class FluxRest {
 					.accept(MediaType.APPLICATION_OCTET_STREAM, MediaType.ALL)
 					.header(VERSION, version)
 					.retrieve()
-					.onRawStatus(i -> i != 200, exepctionFunction(osPipe))
+					.onRawStatus(i -> i != 200, exceptionFunction(osPipe))
 					.bodyToFlux(DataBuffer.class);
 
 			DataBufferUtils.write(wc, osPipe)
@@ -465,7 +471,7 @@ public class FluxRest {
 		return s -> closePipe(osPipe);
 	}
 
-	private static Function<ClientResponse, Mono<? extends Throwable>> exepctionFunction(final PipedOutputStream osPipe) {
+	private static Function<ClientResponse, Mono<? extends Throwable>> exceptionFunction(final PipedOutputStream osPipe) {
 		return response -> {
 			closePipe(osPipe);
 			throw new RestException("An error occured." + response.statusCode());

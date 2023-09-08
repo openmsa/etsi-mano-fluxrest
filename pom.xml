@@ -11,6 +11,7 @@
 		<developerConnection>scm:git:https://github.com/openmsa/etsi-mano-fluxrest.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
+	<!--
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -22,6 +23,7 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+	-->
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -66,6 +68,11 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<scope>test</scope>
@@ -92,8 +99,8 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.github.tomakehurst</groupId>
-			<artifactId>wiremock-jre8</artifactId>
+			<groupId>org.wiremock</groupId>
+			<artifactId>wiremock</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

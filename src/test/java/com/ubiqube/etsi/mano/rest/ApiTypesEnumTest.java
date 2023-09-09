@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.Test;
 
-import com.ubiqube.etsi.mano.service.rest.model.ApiTypesEnum;
+import com.ubiqube.etsi.mano.service.auth.model.ApiTypesEnum;
 
 @SuppressWarnings("static-method")
 class ApiTypesEnumTest {

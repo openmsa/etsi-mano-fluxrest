@@ -66,10 +66,10 @@ import org.springframework.web.reactive.function.client.WebClientRequestExceptio
 
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo;
+import com.ubiqube.etsi.mano.service.auth.model.AuthType;
+import com.ubiqube.etsi.mano.service.auth.model.AuthentificationInformations;
+import com.ubiqube.etsi.mano.service.auth.model.ServerConnection;
 import com.ubiqube.etsi.mano.service.rest.FluxRest;
-import com.ubiqube.etsi.mano.service.rest.model.AuthType;
-import com.ubiqube.etsi.mano.service.rest.model.AuthentificationInformations;
-import com.ubiqube.etsi.mano.service.rest.model.ServerConnection;
 
 import jakarta.annotation.Nonnull;
 

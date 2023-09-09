@@ -11,19 +11,6 @@
 		<developerConnection>scm:git:https://github.com/openmsa/etsi-mano-fluxrest.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
-	<!--
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-bom</artifactId>
-				<version>9.4.49.v20220914</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-	-->
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -61,6 +48,11 @@
 			<groupId>com.ubiqube.mano.repository</groupId>
 			<artifactId>mano-repo-api</artifactId>
 			<version>${version.mano-repo-api}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ubiqube.mano</groupId>
+			<artifactId>mano-db-auth</artifactId>
+			<version>${version.mano-db-auth}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>

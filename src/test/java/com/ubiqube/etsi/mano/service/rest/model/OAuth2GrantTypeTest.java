@@ -22,6 +22,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.Test;
 
+import com.ubiqube.etsi.mano.service.auth.model.OAuth2GrantType;
+
 @SuppressWarnings("static-method")
 class OAuth2GrantTypeTest {
 

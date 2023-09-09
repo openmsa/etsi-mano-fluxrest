@@ -22,7 +22,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import com.ubiqube.etsi.mano.service.rest.model.AuthentificationInformations.AuthentificationInformationsBuilder;
+import com.ubiqube.etsi.mano.service.auth.model.AuthentificationInformations;
+import com.ubiqube.etsi.mano.service.auth.model.AuthentificationInformations.AuthentificationInformationsBuilder;
 
 @SuppressWarnings("static-method")
 class AuthentificationInformationsTest {

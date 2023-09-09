@@ -22,8 +22,8 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
-import com.ubiqube.etsi.mano.service.rest.model.ServerConnection;
-import com.ubiqube.etsi.mano.service.rest.model.ServerConnection.ServerConnectionBuilder;
+import com.ubiqube.etsi.mano.service.auth.model.ServerConnection;
+import com.ubiqube.etsi.mano.service.auth.model.ServerConnection.ServerConnectionBuilder;
 
 @SuppressWarnings("static-method")
 class ServerConnectionTest {

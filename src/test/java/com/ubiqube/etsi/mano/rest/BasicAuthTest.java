@@ -62,7 +62,7 @@ class BasicAuthTest {
 				.build();
 		return ServerConnection.serverBuilder()
 				.authentification(auth)
-				.url(wmRuntimeInfo.getHttpBaseUrl())
+				.url(URI.create(wmRuntimeInfo.getHttpBaseUrl()))
 				.build();
 	}
 

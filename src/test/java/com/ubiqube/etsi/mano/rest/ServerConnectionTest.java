@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.rest;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.net.URI;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -38,7 +39,7 @@ class ServerConnectionTest {
 				.serverType(null)
 				.tlsCert("")
 				.tupleVersion(123)
-				.url("")
+				.url(URI.create("http://localhost/"))
 				.version("123");
 		assertNotNull(sc.toString());
 		final ServerConnection scObj = sc.build();
@@ -49,7 +50,7 @@ class ServerConnectionTest {
 		scObj.setServerType(null);
 		scObj.setTlsCert(null);
 		scObj.setTupleVersion(0);
-		scObj.setUrl("http://localhost/");
+		scObj.setUrl(URI.create("http://localhost/"));
 		scObj.setVersion(null);
 	}
 }

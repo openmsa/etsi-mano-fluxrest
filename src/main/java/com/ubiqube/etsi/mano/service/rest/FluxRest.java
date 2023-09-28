@@ -102,14 +102,14 @@ public class FluxRest {
 	private static final String VERSION = "Version";
 	private static final Logger LOG = LoggerFactory.getLogger(FluxRest.class);
 
-	private final String rootUrl;
+	private final URI rootUrl;
 	private final String id = UUID.randomUUID().toString();
 	protected HttpClient httpClient;
 	protected Builder webBuilder;
 
 	public FluxRest(final ServerConnection server) {
 		this.rootUrl = server.getUrl();
-		final String url = Objects.requireNonNull(server.getUrl(), "Server URL could not be null.");
+		final URI url = Objects.requireNonNull(server.getUrl(), "Server URL could not be null.");
 		this.httpClient = getHttpClient(url, server.isIgnoreSsl(), server.getTlsCert());
 		this.webBuilder = applyBasicWebClientBuilder(WebClient.builder(), server);
 	}
@@ -118,13 +118,13 @@ public class FluxRest {
 		final ClientHttpConnector conn = new ReactorClientHttpConnector(httpClient);
 		wcb.clientConnector(conn);
 		createAuthPart(wcb, server.getAuthentification());
-		wcb.baseUrl(rootUrl)
+		wcb.baseUrl(rootUrl.toString())
 				.filter(errorHandler());
 		return wcb;
 	}
 
-	private static @Nullable SslContext buildSslContext(final String url, @Nullable final Boolean ignoreSsl, final @Nullable String tlsCert) {
-		if (url.startsWith("http:")) {
+	private static @Nullable SslContext buildSslContext(final URI url, @Nullable final Boolean ignoreSsl, final @Nullable String tlsCert) {
+		if (url.getScheme().equals("http")) {
 			return null;
 		}
 		if ((ignoreSsl != null) && ignoreSsl) {
@@ -200,7 +200,7 @@ public class FluxRest {
 		}
 	}
 
-	private static HttpClient getHttpClient(final String url, @Nullable final Boolean ignoreSsl, @Nullable final String tlsCert) {
+	private static HttpClient getHttpClient(final URI url, @Nullable final Boolean ignoreSsl, @Nullable final String tlsCert) {
 		final SslContext sslContext = buildSslContext(url, ignoreSsl, tlsCert);
 		HttpClient client = HttpClient.create()
 				.doOnRequest((h, c) -> c.addHandlerFirst(new ManoLoggingHandler()));
@@ -211,10 +211,10 @@ public class FluxRest {
 		return client;
 	}
 
-	private ReactiveClientRegistrationRepository getRegistration(final String tokenUri, final String clientId, final String clientSecret, final String scope) {
+	private ReactiveClientRegistrationRepository getRegistration(final URI tokenUri, final String clientId, final String clientSecret, final String scope) {
 		final ClientRegistration registration = ClientRegistration
 				.withRegistrationId(id)
-				.tokenUri(tokenUri)
+				.tokenUri(tokenUri.toString())
 				.clientId(clientId)
 				.clientSecret(clientSecret)
 				.authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
@@ -300,7 +300,7 @@ public class FluxRest {
 	}
 
 	public UriComponentsBuilder uriBuilder() {
-		return UriComponentsBuilder.fromHttpUrl(rootUrl);
+		return UriComponentsBuilder.fromHttpUrl(rootUrl.toString());
 	}
 
 	/**

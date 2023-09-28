@@ -319,7 +319,7 @@ class FluxRestTest {
 		final AuthentificationInformations auth = null;
 		return ServerConnection.serverBuilder()
 				.authentification(auth)
-				.url(wmRuntimeInfo.getHttpBaseUrl())
+				.url(URI.create(wmRuntimeInfo.getHttpBaseUrl()))
 				.build();
 	}
 

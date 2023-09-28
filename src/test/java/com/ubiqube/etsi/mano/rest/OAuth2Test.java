@@ -79,13 +79,13 @@ class OAuth2Test {
 						.o2IgnoreSsl(true)
 						.o2Username("user")
 						.o2Password("pass")
-						.tokenEndpoint(wmRuntimeInfo.getHttpBaseUrl() + "/auth/realms/mano-realm/protocol/openid-connect/token")
+						.tokenEndpoint(URI.create(wmRuntimeInfo.getHttpBaseUrl() + "/auth/realms/mano-realm/protocol/openid-connect/token"))
 						.build())
 				.authType(List.of(AuthType.BASIC))
 				.build();
 		return ServerConnection.serverBuilder()
 				.authentification(auth)
-				.url(wmRuntimeInfo.getHttpBaseUrl())
+				.url(URI.create(wmRuntimeInfo.getHttpBaseUrl()))
 				.build();
 	}
 

@@ -171,7 +171,7 @@ class TlsTest {
 		return ServerConnection.serverBuilder()
 				.authentification(auth)
 				.tlsCert(certTxt)
-				.url(URI.create("http://localhost/"))
+				.url(URI.create(wmRuntimeInfo.getHttpsBaseUrl()))
 				.build();
 	}
 

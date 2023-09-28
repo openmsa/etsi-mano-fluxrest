@@ -75,7 +75,7 @@ class SslTest {
 		return ServerConnection.serverBuilder()
 				.authentification(auth)
 				.ignoreSsl(true)
-				.url(URI.create("http://localhost/"))
+				.url(URI.create(wmRuntimeInfo.getHttpsBaseUrl()))
 				.build();
 	}
 

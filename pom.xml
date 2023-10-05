@@ -3,13 +3,13 @@
 	<parent>
 		<groupId>com.ubiqube.mano</groupId>
 		<artifactId>mano-super-pom</artifactId>
-		<version>3.1.0-SNAPSHOT</version>
+		<version>3.2.0</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<artifactId>mano-fluxrest</artifactId>
 	<scm>
 		<developerConnection>scm:git:https://github.com/openmsa/etsi-mano-fluxrest.git</developerConnection>
-		<tag>HEAD</tag>
+		<tag>mano-fluxrest-3.2.0</tag>
 	</scm>
 	<dependencies>
 		<dependency>
@@ -39,12 +39,12 @@
 		<dependency>
 			<groupId>com.ubiqube.mano.repository</groupId>
 			<artifactId>mano-repo-api</artifactId>
-			<version>${version.mano-repo-api}</version>
+			<version>3.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-db-auth</artifactId>
-			<version>${version.mano-db-auth}</version>
+			<version>3.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>

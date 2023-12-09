@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.ubiqube.mano</groupId>
 		<artifactId>mano-super-pom</artifactId>
-		<version>3.2.1-SNAPSHOT</version>
+		<version>3.2.2-SNAPSHOT</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<artifactId>mano-fluxrest</artifactId>
@@ -39,12 +39,12 @@
 		<dependency>
 			<groupId>com.ubiqube.mano.repository</groupId>
 			<artifactId>mano-repo-api</artifactId>
-			<version>3.2.1-SNAPSHOT</version>
+			<version>${version.mano-repo-api}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-db-auth</artifactId>
-			<version>3.2.1-SNAPSHOT</version>
+			<version>${version.small-db}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>

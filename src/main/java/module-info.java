@@ -24,6 +24,7 @@ module com.ubiqube.etsi.mano.service.rest {
 	requires lombok;
 	requires org.slf4j;
 	requires spring.core;
+	requires spring.context;
 	requires spring.security.oauth2.client;
 	requires spring.security.oauth2.core;
 	requires transitive spring.web;

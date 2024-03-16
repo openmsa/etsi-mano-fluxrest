@@ -26,6 +26,8 @@ import java.net.URI;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
@@ -38,6 +40,8 @@ import com.ubiqube.etsi.mano.service.rest.FluxRest;
 @SuppressWarnings("static-method")
 @WireMockTest
 class BasicAuthTest {
+	/** Logger. */
+	private static final Logger LOG = LoggerFactory.getLogger(BasicAuthTest.class);
 
 	@Test
 	void testName(final WireMockRuntimeInfo wmRuntimeInfo) throws Exception {
@@ -47,7 +51,7 @@ class BasicAuthTest {
 		final ServerConnection srv = createServer(wmRuntimeInfo);
 		final FluxRest fr = new FluxRest(srv);
 		final String uri = wmRuntimeInfo.getHttpBaseUrl() + "/test001";
-		System.out.println("" + uri);
+		LOG.info("" + uri);
 		final String res = fr.get(URI.create(uri), String.class, "1.2.3");
 		assertEquals("{}", res);
 	}

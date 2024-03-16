@@ -28,6 +28,8 @@ import java.net.URI;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo;
@@ -42,6 +44,8 @@ import com.ubiqube.etsi.mano.service.rest.FluxRest;
 @SuppressWarnings("static-method")
 @WireMockTest
 class OAuth2Test {
+	/** Logger. */
+	private static final Logger LOG = LoggerFactory.getLogger(OAuth2Test.class);
 
 	@Test
 	void testName(final WireMockRuntimeInfo wmRuntimeInfo) throws Exception {
@@ -64,7 +68,7 @@ class OAuth2Test {
 		final ServerConnection srv = createServer(wmRuntimeInfo);
 		final FluxRest fr = new FluxRest(srv);
 		final String uri = wmRuntimeInfo.getHttpBaseUrl() + "/test001";
-		System.out.println("" + uri);
+		LOG.debug("" + uri);
 		final ResponseEntity<String> res = fr.getWithReturn(URI.create(uri), String.class, null);
 		assertNotNull(res);
 		assertEquals("{}", res.getBody());

@@ -41,6 +41,8 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -61,6 +63,8 @@ import com.ubiqube.etsi.mano.service.rest.RestException;
 @SuppressWarnings("static-method")
 @WireMockTest
 class FluxRestTest {
+	/** Logger. */
+	private static final Logger LOG = LoggerFactory.getLogger(FluxRestTest.class);
 
 	@Test
 	void testName(final WireMockRuntimeInfo wmRuntimeInfo) throws Exception {
@@ -80,10 +84,10 @@ class FluxRestTest {
 		final ServerConnection srv = createServer(wmRuntimeInfo);
 		final FluxRest fr = new FluxRest(srv);
 		final String uri = wmRuntimeInfo.getHttpBaseUrl() + "/test001";
-		System.out.println("" + uri);
+		LOG.info("" + uri);
 		final ResponseEntity<String> res = fr.postWithReturn(URI.create(uri), "", String.class, "2.3.4");
 		assertNotNull(res);
-		System.out.println(res);
+		LOG.info(res.getBody());
 	}
 
 	@Test
@@ -92,10 +96,10 @@ class FluxRestTest {
 		final ServerConnection srv = createServer(wmRuntimeInfo);
 		final FluxRest fr = new FluxRest(srv);
 		final String uri = wmRuntimeInfo.getHttpBaseUrl() + "/test001";
-		System.out.println("" + uri);
+		LOG.info("" + uri);
 		final ResponseEntity<String> res = fr.deleteWithReturn(URI.create(uri), String.class, "2.3.4");
 		assertNotNull(res);
-		System.out.println(res);
+		LOG.info("" + res);
 	}
 
 	@Test
@@ -106,7 +110,7 @@ class FluxRestTest {
 		final ServerConnection srv = createServer(wmRuntimeInfo);
 		final FluxRest fr = new FluxRest(srv);
 		final String uri = wmRuntimeInfo.getHttpBaseUrl() + "/test001";
-		System.out.println("" + uri);
+		LOG.info("" + uri);
 		final Consumer<InputStream> tgt = is -> {
 			final ByteArrayOutputStream bos = new ByteArrayOutputStream();
 			try {
@@ -137,7 +141,7 @@ class FluxRestTest {
 		final ServerConnection srv = createServer(wmRuntimeInfo);
 		final FluxRest fr = new FluxRest(srv);
 		final String uri = wmRuntimeInfo.getHttpBaseUrl() + "/test001";
-		System.out.println("" + uri);
+		LOG.info("" + uri);
 		fr.patch(URI.create(uri), String.class, null, Map.of(), "2.3.4");
 		assertNotNull("");
 	}
@@ -148,7 +152,7 @@ class FluxRestTest {
 		final ServerConnection srv = createServer(wmRuntimeInfo);
 		final FluxRest fr = new FluxRest(srv);
 		final String uri = wmRuntimeInfo.getHttpBaseUrl() + "/test001";
-		System.out.println("" + uri);
+		LOG.info("" + uri);
 		fr.patch(URI.create(uri), String.class, "1", Map.of(), "2.3.4");
 		assertNotNull("");
 	}

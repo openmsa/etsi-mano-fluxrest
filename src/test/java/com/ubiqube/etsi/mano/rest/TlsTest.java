@@ -62,6 +62,8 @@ import org.bouncycastle.operator.bc.BcRSAContentSignerBuilder;
 import org.bouncycastle.util.io.pem.PemWriter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.reactive.function.client.WebClientRequestException;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
@@ -76,6 +78,8 @@ import jakarta.annotation.Nonnull;
 @SuppressWarnings("static-method")
 class TlsTest {
 	private static final String CLIENT_KEYSTORE = "/tmp/test-unit.ks";
+	/** Logger. */
+	private static final Logger LOG = LoggerFactory.getLogger(TlsTest.class);
 
 	@RegisterExtension
 	static WireMockExtension wm1 = WireMockExtension.newInstance()
@@ -163,7 +167,7 @@ class TlsTest {
 	@Nonnull
 	private ServerConnection createServer(final WireMockRuntimeInfo wmRuntimeInfo) {
 		final String certTxt = pemEncode(cert);
-		System.out.println(certTxt);
+		LOG.info(certTxt);
 		final AuthentificationInformations auth = AuthentificationInformations.builder()
 				.authTlsCert(certTxt)
 				.authType(List.of(AuthType.fromValue("TLS_CERT")))

@@ -293,10 +293,7 @@ public class FluxRest {
 		final Mono<ResponseEntity<T>> resp = makeBaseQuery(uri, HttpMethod.GET, null, map)
 				.retrieve()
 				.toEntity(myBean);
-		if (version != null) {
-			return getBlockingResult(resp, null, Map.of(VERSION, version));
-		}
-		return getBlockingResult(resp, null, Map.of());
+		return getBlockingResult(resp, null, map);
 	}
 
 	public UriComponentsBuilder uriBuilder() {
@@ -433,7 +430,7 @@ public class FluxRest {
 		final Mono<ResponseEntity<T>> resp = base
 				.retrieve()
 				.toEntity(clazz);
-		return getBlockingResult(resp, null, Map.of(VERSION, version));
+		return getBlockingResult(resp, null, map);
 	}
 
 	public void doDownload(final String url, final Consumer<InputStream> target, @Nullable final String version) {

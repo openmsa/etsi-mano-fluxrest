@@ -124,7 +124,7 @@ public class FluxRest {
 	}
 
 	private static @Nullable SslContext buildSslContext(final URI url, @Nullable final Boolean ignoreSsl, final @Nullable String tlsCert) {
-		if (url.getScheme().equals("http")) {
+		if ("http".equals(url.getScheme())) {
 			return null;
 		}
 		if ((ignoreSsl != null) && ignoreSsl) {
@@ -479,6 +479,10 @@ public class FluxRest {
 		} catch (final IOException e) {
 			throw new RestException(e);
 		}
+	}
+
+	public WebClient.Builder getWebClientBuilder() {
+		return webBuilder;
 	}
 
 	public WebClient getWebClient() {

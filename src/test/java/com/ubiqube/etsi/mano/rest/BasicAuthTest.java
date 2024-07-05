@@ -51,7 +51,7 @@ class BasicAuthTest {
 		final ServerConnection srv = createServer(wmRuntimeInfo);
 		final FluxRest fr = new FluxRest(srv);
 		final String uri = wmRuntimeInfo.getHttpBaseUrl() + "/test001";
-		LOG.info("" + uri);
+		LOG.info("{}", uri);
 		final String res = fr.get(URI.create(uri), String.class, "1.2.3");
 		assertEquals("{}", res);
 	}

@@ -68,7 +68,7 @@ class OAuth2Test {
 		final ServerConnection srv = createServer(wmRuntimeInfo);
 		final FluxRest fr = new FluxRest(srv);
 		final String uri = wmRuntimeInfo.getHttpBaseUrl() + "/test001";
-		LOG.debug("" + uri);
+		LOG.debug("{}", uri);
 		final ResponseEntity<String> res = fr.getWithReturn(URI.create(uri), String.class, null);
 		assertNotNull(res);
 		assertEquals("{}", res.getBody());

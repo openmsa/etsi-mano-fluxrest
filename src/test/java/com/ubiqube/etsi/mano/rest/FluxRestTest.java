@@ -67,7 +67,7 @@ class FluxRestTest {
 	private static final Logger LOG = LoggerFactory.getLogger(FluxRestTest.class);
 
 	@Test
-	void testName(final WireMockRuntimeInfo wmRuntimeInfo) throws Exception {
+	void testName(final WireMockRuntimeInfo wmRuntimeInfo) {
 		stubFor(get(urlPathMatching("/test001")).willReturn(aResponse()
 				.withBody("{}")
 				.withStatus(200)));
@@ -79,27 +79,27 @@ class FluxRestTest {
 	}
 
 	@Test
-	void testPostWithReturn(final WireMockRuntimeInfo wmRuntimeInfo) throws Exception {
+	void testPostWithReturn(final WireMockRuntimeInfo wmRuntimeInfo) {
 		stubFor(post(urlPathMatching("/test001")).willReturn(aResponse().withStatus(200)));
 		final ServerConnection srv = createServer(wmRuntimeInfo);
 		final FluxRest fr = new FluxRest(srv);
 		final String uri = wmRuntimeInfo.getHttpBaseUrl() + "/test001";
-		LOG.info("" + uri);
+		LOG.info("{}", uri);
 		final ResponseEntity<String> res = fr.postWithReturn(URI.create(uri), "", String.class, "2.3.4");
 		assertNotNull(res);
 		LOG.info(res.getBody());
 	}
 
 	@Test
-	void testDeleteWithReturn(final WireMockRuntimeInfo wmRuntimeInfo) throws Exception {
+	void testDeleteWithReturn(final WireMockRuntimeInfo wmRuntimeInfo) {
 		stubFor(delete(urlPathMatching("/test001")).willReturn(aResponse().withStatus(200)));
 		final ServerConnection srv = createServer(wmRuntimeInfo);
 		final FluxRest fr = new FluxRest(srv);
 		final String uri = wmRuntimeInfo.getHttpBaseUrl() + "/test001";
-		LOG.info("" + uri);
+		LOG.info("{}", uri);
 		final ResponseEntity<String> res = fr.deleteWithReturn(URI.create(uri), String.class, "2.3.4");
 		assertNotNull(res);
-		LOG.info("" + res);
+		LOG.info("{}", res);
 	}
 
 	@Test
@@ -110,7 +110,7 @@ class FluxRestTest {
 		final ServerConnection srv = createServer(wmRuntimeInfo);
 		final FluxRest fr = new FluxRest(srv);
 		final String uri = wmRuntimeInfo.getHttpBaseUrl() + "/test001";
-		LOG.info("" + uri);
+		LOG.info("{}", uri);
 		final Consumer<InputStream> tgt = is -> {
 			final ByteArrayOutputStream bos = new ByteArrayOutputStream();
 			try {
@@ -125,7 +125,7 @@ class FluxRestTest {
 	}
 
 	@Test
-	void testDownload2(final WireMockRuntimeInfo wmRuntimeInfo) throws Exception {
+	void testDownload2(final WireMockRuntimeInfo wmRuntimeInfo) {
 		stubFor(get(urlPathMatching("/test001")).willReturn(aResponse().withStatus(200)));
 		final ServerConnection srv = createServer(wmRuntimeInfo);
 		final FluxRest fr = new FluxRest(srv);
@@ -136,23 +136,23 @@ class FluxRestTest {
 	}
 
 	@Test
-	void testPatch(final WireMockRuntimeInfo wmRuntimeInfo) throws Exception {
+	void testPatch(final WireMockRuntimeInfo wmRuntimeInfo) {
 		stubFor(patch(urlPathMatching("/test001")).willReturn(aResponse().withStatus(200)));
 		final ServerConnection srv = createServer(wmRuntimeInfo);
 		final FluxRest fr = new FluxRest(srv);
 		final String uri = wmRuntimeInfo.getHttpBaseUrl() + "/test001";
-		LOG.info("" + uri);
+		LOG.info("{}", uri);
 		fr.patch(URI.create(uri), String.class, null, Map.of(), "2.3.4");
 		assertNotNull("");
 	}
 
 	@Test
-	void testPatchIfMatch(final WireMockRuntimeInfo wmRuntimeInfo) throws Exception {
+	void testPatchIfMatch(final WireMockRuntimeInfo wmRuntimeInfo) {
 		stubFor(patch(urlPathMatching("/test001")).willReturn(aResponse().withStatus(200)));
 		final ServerConnection srv = createServer(wmRuntimeInfo);
 		final FluxRest fr = new FluxRest(srv);
 		final String uri = wmRuntimeInfo.getHttpBaseUrl() + "/test001";
-		LOG.info("" + uri);
+		LOG.info("{}", uri);
 		fr.patch(URI.create(uri), String.class, "1", Map.of(), "2.3.4");
 		assertNotNull("");
 	}

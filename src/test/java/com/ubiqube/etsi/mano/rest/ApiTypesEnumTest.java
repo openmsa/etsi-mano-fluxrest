@@ -27,7 +27,7 @@ import com.ubiqube.etsi.mano.service.auth.model.ApiTypesEnum;
 class ApiTypesEnumTest {
 
 	@Test
-	void testName() throws Exception {
+	void testName() {
 		final ApiTypesEnum obj = ApiTypesEnum.fromValue("SOL003");
 		assertNotNull(obj);
 		assertNotNull(obj.toString());
@@ -35,13 +35,13 @@ class ApiTypesEnumTest {
 	}
 
 	@Test
-	void testNull() throws Exception {
+	void testNull() {
 		final ApiTypesEnum obj = ApiTypesEnum.fromValue("SOL");
 		assertNull(obj);
 	}
 
 	@Test
-	void testNullInput() throws Exception {
+	void testNullInput() {
 		final ApiTypesEnum obj = ApiTypesEnum.fromValue(null);
 		assertNull(obj);
 	}

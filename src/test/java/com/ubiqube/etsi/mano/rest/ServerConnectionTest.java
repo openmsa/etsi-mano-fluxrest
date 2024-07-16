@@ -30,7 +30,7 @@ import com.ubiqube.etsi.mano.service.auth.model.ServerConnection.ServerConnectio
 class ServerConnectionTest {
 
 	@Test
-	void testName() throws Exception {
+	void testName() {
 		final ServerConnectionBuilder sc = ServerConnection.serverBuilder()
 				.authentification(null)
 				.id(UUID.randomUUID())

@@ -16,7 +16,7 @@
  */
 package com.ubiqube.etsi.mano.service.rest.model;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.net.URI;
 
@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
 
 import com.ubiqube.etsi.mano.service.auth.model.ServerConnection;
 
+@SuppressWarnings("static-method")
 class ServerConnectionTest {
 
 	@Test
@@ -35,7 +36,7 @@ class ServerConnectionTest {
 		sc.getTupleVersion();
 		sc.getVersion();
 		sc = new ServerConnection(null, URI.create("http://localhost/"));
-		assertTrue(true);
+		assertNotNull(sc);
 	}
 
 }

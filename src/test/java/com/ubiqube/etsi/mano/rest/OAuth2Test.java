@@ -48,7 +48,7 @@ class OAuth2Test {
 	private static final Logger LOG = LoggerFactory.getLogger(OAuth2Test.class);
 
 	@Test
-	void testName(final WireMockRuntimeInfo wmRuntimeInfo) throws Exception {
+	void testName(final WireMockRuntimeInfo wmRuntimeInfo) {
 		stubFor(get(urlPathMatching("/test001")).willReturn(aResponse()
 				.withStatus(200)
 				.withBody("{}")));

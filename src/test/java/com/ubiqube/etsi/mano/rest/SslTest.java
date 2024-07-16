@@ -48,7 +48,7 @@ class SslTest {
 			.build();
 
 	@Test
-	void testFail() throws Exception {
+	void testFail() {
 		final WireMockRuntimeInfo wmRuntimeInfo = wm1.getRuntimeInfo();
 		stubFor(get(urlPathMatching("/test001")).willReturn(aResponse().withStatus(200)));
 		final ServerConnection srv = createServer(wmRuntimeInfo);
@@ -59,7 +59,7 @@ class SslTest {
 	}
 
 	@Test
-	void testOk() throws Exception {
+	void testOk() {
 		final WireMockRuntimeInfo wmRuntimeInfo = wm1.getRuntimeInfo();
 		wm1.stubFor(get(urlPathMatching("/test001")).willReturn(aResponse().withStatus(200).withBody("{}")));
 		final ServerConnection srv = createServer(wmRuntimeInfo);

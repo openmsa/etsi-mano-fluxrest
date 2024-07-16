@@ -27,7 +27,7 @@ import com.ubiqube.etsi.mano.service.auth.model.AuthParamOauth2.AuthParamOauth2B
 class AuthParamOauth2Test {
 
 	@Test
-	void testName() throws Exception {
+	void testName() {
 		final AuthParamOauth2Builder apob = AuthParamOauth2.builder()
 				.clientId(null)
 				.clientSecret(null)

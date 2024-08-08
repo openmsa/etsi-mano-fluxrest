@@ -39,12 +39,10 @@
 		<dependency>
 			<groupId>com.ubiqube.mano.repository</groupId>
 			<artifactId>mano-repo-api</artifactId>
-			<version>${version.mano-repo-api}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-db-auth</artifactId>
-			<version>${version.small-db}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>

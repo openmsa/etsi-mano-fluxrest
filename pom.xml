@@ -8,7 +8,7 @@
 	</parent>
 	<artifactId>mano-fluxrest</artifactId>
 	<scm>
-		<developerConnection>scm:git:https://github.com/openmsa/etsi-mano-fluxrest.git</developerConnection>
+		<developerConnection>scm:git:ssh://git@github.com/openmsa/etsi-mano-fluxrest.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
 	<dependencies>

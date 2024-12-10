@@ -297,7 +297,7 @@ public class FluxRest {
 	}
 
 	public UriComponentsBuilder uriBuilder() {
-		return UriComponentsBuilder.fromHttpUrl(rootUrl.toString());
+		return UriComponentsBuilder.fromUriString(rootUrl.toString());
 	}
 
 	/**

@@ -25,6 +25,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.put;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -49,6 +50,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClient.Builder;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
@@ -67,15 +71,16 @@ class FluxRestTest {
 	private static final Logger LOG = LoggerFactory.getLogger(FluxRestTest.class);
 
 	@Test
-	void testName(final WireMockRuntimeInfo wmRuntimeInfo) {
+	void testGetRequestReturnsExpectedJsonResponse(final WireMockRuntimeInfo wmRuntimeInfo) {
 		stubFor(get(urlPathMatching("/test001")).willReturn(aResponse()
-				.withBody("{}")
+				.withBody("{\"key\": \"value\", \"array\": [1, 2, 3], \"nested\": {\"innerKey\": \"innerValue\"}}")
 				.withStatus(200)));
 		final ServerConnection srv = createServer(wmRuntimeInfo);
 		final FluxRest fr = new FluxRest(srv);
 		final String uri = wmRuntimeInfo.getHttpBaseUrl() + "/test001";
 		final String res = fr.get(URI.create(uri), String.class, null);
 		assertNotNull(res);
+		assertEquals("{\"key\": \"value\", \"array\": [1, 2, 3], \"nested\": {\"innerKey\": \"innerValue\"}}", res);
 	}
 
 	@Test
@@ -84,22 +89,22 @@ class FluxRestTest {
 		final ServerConnection srv = createServer(wmRuntimeInfo);
 		final FluxRest fr = new FluxRest(srv);
 		final String uri = wmRuntimeInfo.getHttpBaseUrl() + "/test001";
-		LOG.info("{}", uri);
+		LOG.info("Sending POST request to URI: {}", uri);
 		final ResponseEntity<String> res = fr.postWithReturn(URI.create(uri), "", String.class, "2.3.4");
 		assertNotNull(res);
-		LOG.info(res.getBody());
+		LOG.info("Received response body: {}", res.getBody());
 	}
 
 	@Test
 	void testDeleteWithReturn(final WireMockRuntimeInfo wmRuntimeInfo) {
-		stubFor(delete(urlPathMatching("/test001")).willReturn(aResponse().withStatus(200)));
+		stubFor(delete(urlPathMatching("/api/v1/test001")).willReturn(aResponse().withStatus(200)));
 		final ServerConnection srv = createServer(wmRuntimeInfo);
+		assertFalse(srv.isIgnoreSsl(), "SSL verification should not be ignored for security reasons.");
 		final FluxRest fr = new FluxRest(srv);
-		final String uri = wmRuntimeInfo.getHttpBaseUrl() + "/test001";
-		LOG.info("{}", uri);
+		final String uri = wmRuntimeInfo.getHttpBaseUrl() + "/api/v1/test001";
+		LOG.info("Request URI: {}", uri);
 		final ResponseEntity<String> res = fr.deleteWithReturn(URI.create(uri), String.class, "2.3.4");
 		assertNotNull(res);
-		LOG.info("{}", res);
 	}
 
 	@Test
@@ -194,16 +199,26 @@ class FluxRestTest {
 	}
 
 	@Test
-	void testGet(final WireMockRuntimeInfo wmRuntimeInfo) {
-		stubFor(get(urlPathMatching("/test001")).willReturn(aResponse().withStatus(200)));
+	void testGetRequestWithValidResponse(final WireMockRuntimeInfo wmRuntimeInfo) {
+		stubFor(get(urlPathMatching("/test001"))
+				.willReturn(aResponse()
+						.withStatus(200)
+						.withHeader("Content-Type", "application/json")
+						.withBody("Expected response content")));
 		final ServerConnection srv = createServer(wmRuntimeInfo);
 		final FluxRest fr = new FluxRest(srv);
 		final String uri = wmRuntimeInfo.getHttpBaseUrl() + "/test001";
 		final ParameterizedTypeReference<String> ptr = new ParameterizedTypeReference<>() {
 			//
 		};
-		fr.get(URI.create(uri), ptr, null);
-		assertTrue(true);
+		final String response = fr.get(URI.create(uri), ptr, null);
+		// Assert the response body
+		assertEquals("Expected response content", response);
+
+		// Additional assertions
+		// Check if the response is not null
+		assertNotNull(response, "Response should not be null");
+
 	}
 
 	@Test
@@ -312,11 +327,16 @@ class FluxRestTest {
 		final FluxRest fr = new FluxRest(srv);
 		final String uri = wmRuntimeInfo.getHttpBaseUrl() + "/test001";
 		final URI ur = URI.create(uri);
-		final ProblemDetailException e = assertThrows(ProblemDetailException.class, () -> fr.post(ur, "{}", String.class, "1.2.3"));
+		final ProblemDetailException e = assertThrows(ProblemDetailException.class,
+				() -> fr.post(ur, "{}", String.class, "1.2.3"));
 		assertEquals("Unauthorized.", e.getMessage());
 		final ProblemDetail pd = e.getProblemDetail();
 		assertNotNull(pd);
-		assertEquals(401, pd.getStatus());
+		assertEquals(401, pd.getStatus(), "Status should be 401");
+		assertEquals(URI.create("about:blank"), pd.getType(), "Type should be 'about:blank'");
+		assertEquals("Unauthorized.", pd.getDetail(), "Detail should be 'Unauthorized.'");
+		assertEquals(URI.create("http://6be517c93979"), pd.getInstance(), "Instance should match the expected URI");
+
 	}
 
 	private static ServerConnection createServer(final WireMockRuntimeInfo wmRuntimeInfo) {
@@ -335,4 +355,22 @@ class FluxRestTest {
 		}
 	}
 
+	@Test
+	void TestUriBuilder(final WireMockRuntimeInfo wmRuntimeInfo) {
+		final ServerConnection srv = createServer(wmRuntimeInfo);
+		final FluxRest fr = new FluxRest(srv);
+		final UriComponentsBuilder ub = fr.uriBuilder();
+		assertNotNull(ub);
+		assertEquals(wmRuntimeInfo.getHttpBaseUrl(), ub.toUriString());
+	}
+
+	@Test
+	void testGetWebClientBuilder(final WireMockRuntimeInfo wmRuntimeInfo) {
+		final ServerConnection srv = createServer(wmRuntimeInfo);
+		final FluxRest fr = new FluxRest(srv);
+		final WebClient res = fr.getWebClient();
+		assertNotNull(res);
+		final Builder builder = fr.getWebClientBuilder();
+		assertNotNull(builder);
+	}
 }

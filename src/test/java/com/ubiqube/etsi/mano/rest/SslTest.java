@@ -37,7 +37,7 @@ import com.ubiqube.etsi.mano.service.auth.model.ServerConnection;
 import com.ubiqube.etsi.mano.service.rest.FluxRest;
 import com.ubiqube.etsi.mano.service.rest.RestException;
 
-import jakarta.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 
 @SuppressWarnings("static-method")
 @WireMockTest(httpsEnabled = true)
@@ -69,7 +69,7 @@ class SslTest {
 		assertEquals("{}", str);
 	}
 
-	@Nonnull
+	@NonNull
 	private static ServerConnection createServer(final WireMockRuntimeInfo wmRuntimeInfo) {
 		final AuthentificationInformations auth = null;
 		return ServerConnection.serverBuilder()

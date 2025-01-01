@@ -16,7 +16,7 @@
  */
 package com.ubiqube.etsi.mano.service.rest;
 
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import lombok.Getter;
 import lombok.Setter;
 

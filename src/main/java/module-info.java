@@ -23,6 +23,7 @@ module com.ubiqube.etsi.mano.service.rest {
 	requires com.fasterxml.jackson.annotation;
 	requires lombok;
 	requires org.slf4j;
+	requires org.jspecify;
 	requires spring.core;
 	requires spring.context;
 	requires spring.security.oauth2.client;

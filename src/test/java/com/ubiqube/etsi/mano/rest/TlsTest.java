@@ -73,7 +73,7 @@ import com.ubiqube.etsi.mano.service.auth.model.AuthentificationInformations;
 import com.ubiqube.etsi.mano.service.auth.model.ServerConnection;
 import com.ubiqube.etsi.mano.service.rest.FluxRest;
 
-import jakarta.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 
 @SuppressWarnings("static-method")
 class TlsTest {
@@ -164,7 +164,7 @@ class TlsTest {
 		assertEquals("{}", str);
 	}
 
-	@Nonnull
+	@NonNull
 	private ServerConnection createServer(final WireMockRuntimeInfo wmRuntimeInfo) {
 		final String certTxt = pemEncode(cert);
 		LOG.info(certTxt);

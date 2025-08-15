@@ -40,6 +40,7 @@ import java.util.function.Function;
 import javax.net.ssl.SSLException;
 import javax.net.ssl.TrustManagerFactory;
 
+import org.jspecify.annotations.Nullable;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,6 +68,7 @@ import org.springframework.security.oauth2.client.registration.InMemoryReactiveC
 import org.springframework.security.oauth2.client.registration.ReactiveClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServerOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MimeType;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -87,7 +89,6 @@ import com.ubiqube.etsi.mano.service.auth.model.ServerConnection;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
-import org.jspecify.annotations.Nullable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.SignalType;
@@ -379,7 +380,7 @@ public class FluxRest {
 
 	public void upload(final URI uri, final InputStream is, final String accept, final @Nullable String version) {
 		final MultiValueMap<String, ?> multipart = fromInputStream(is, accept);
-		final MultiValueMap<String, String> headers = new HttpHeaders();
+		final MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
 		if (null != version) {
 			headers.add(VERSION, version);
 		}
